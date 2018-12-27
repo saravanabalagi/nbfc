@@ -14,7 +14,8 @@ namespace OpenHardwareMonitor.Software {
         Is64Bit = true;
       } else if (!IsLinux) {
         try {
-          var result = IsWow64Process(Process.GetCurrentProcess().Handle, out bool wow64Process);
+          bool is64Bit;
+          var result = IsWow64Process(Process.GetCurrentProcess().Handle, out is64Bit);
           // If we are still here, this is a 64bit windows; 32bit windows does
           // not provide IsWow64Process.
           Is64Bit = true;

@@ -10,10 +10,10 @@
     mc:Ignorable="d"
         
     Title="NoteBook FanControl" 
-    Height="345" 
+    Height="280" 
     Width="390" 
     MinWidth="350" 
-    MinHeight="200"
+    MinHeight="280"
     Foreground="#FF2E2E2E"
     Icon="/NoteBookFanControl;component/fan.ico"
     WindowStartupLocation="CenterScreen" 
@@ -27,7 +27,8 @@
         <SolidColorBrush x:Key="BorderBrush" Color="#FF999999"/>
     </Window.Resources>
 
-    <Grid>
+    <Grid Margin="0,0,0,0" Height="250
+          " VerticalAlignment="Top">
         <!--Background-->
         <Grid.Background>
             <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
@@ -38,10 +39,10 @@
 		    BorderThickness="0,1" 
 		    Height="38" 
 		    VerticalAlignment="Top" />
-        
+
         <Rectangle
-            Fill="White" 
-            Margin="0,38,0,0"/>
+            
+            Fill="White" Margin="0,38,0,0"></Rectangle>
 
         <!--Config selector-->
         <DockPanel Margin="0,0,38,0" Height="38" VerticalAlignment="Top">
@@ -53,27 +54,28 @@
                 Margin="10,0,6,0"
                 Foreground="{StaticResource HeaderBrush}"/>
 
-            <TextBox 
-                Text="{Binding SelectedConfig}" 
+            <Button
+                Command="{Binding SelectConfigCommand}"
+                Content="{Binding SelectedConfig}" 
                 Height="23"
-                TextWrapping="Wrap" 
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center" 
-                IsReadOnly="True" 
                 VerticalContentAlignment="Center" />
         </DockPanel>
 
-        <Button 
-            Command="{Binding SelectConfigCommand}"
-            Content="..."        	
-            VerticalAlignment="Top"        
-            Width="23"        
-            Height="23"
-            ToolTip="Select a config" 
-            DockPanel.Dock="Left" 
-            VerticalContentAlignment="Center" 
-            Margin="0,8,10,0" 
-            HorizontalAlignment="Right"/>
+        <!--Settings-->
+        <Button
+            Command="{Binding SettingsCommand}"
+            Margin="0,8,8,0" 
+            VerticalAlignment="Top" 
+            Height="23" 
+            HorizontalAlignment="Right" 
+            Width="23"
+            Padding="2" 
+            ToolTip="Settings">
+
+            <Image Source="{StaticResource settings}"/>
+        </Button>
 
         <!--Version-->
         <Label 
@@ -83,26 +85,6 @@
             Foreground="{StaticResource BorderBrush}" 
             HorizontalAlignment="Right" 
             FontFamily="Segoe UI Light"/>
-
-        <!--World Blood Cancer Day Link-->
-        <TextBlock 
-            x:Name="wbcd"
-            Margin="0,66,14,0" 
-            VerticalAlignment="Top" 
-            HorizontalAlignment="Right" 
-            Foreground="Red" 
-            FontSize="18"
-            ToolTip="#wbcd - World Blood Cancer Day (28/05)" 
-            FontWeight="SemiBold">
-            
-            <Hyperlink 
-                NavigateUri="https://twitter.com/hashtag/wbcd"
-                RequestNavigate="wbcd_RequestNavigate"
-                Foreground="Red"
-                TextDecorations="{x:Null}">
-                &amp;
-            </Hyperlink>
-        </TextBlock>
 
         <!--Service status-->
         <TextBlock 
@@ -133,7 +115,7 @@
                 VerticalAlignment="Top"
                 IsChecked="{Binding IsServiceReadOnly}" 
                 Margin="0,0,7,0" />
-            
+
             <RadioButton 
                 Content="Enabled" 
                 HorizontalAlignment="Left" 
@@ -164,11 +146,14 @@
 
         <!--Fan info-->
         <ScrollViewer 
-            Margin="10,126,10,45"
+            Focusable="False"
+            VerticalScrollBarVisibility="Auto"
+            Margin="10,126,10,10"
             DataContext="{Binding FanControllers}" 
+            VerticalContentAlignment="Top"
             d:DataContext="{d:DesignData /DesignData/FanControllerCollection.xaml}">
 
-            <ItemsControl ItemsSource="{Binding}" Foreground="{StaticResource HeaderBrush}">
+            <ItemsControl Focusable="False" ItemsSource="{Binding}" Foreground="{StaticResource HeaderBrush}" Height="100">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Grid Margin="0,5,10,5">
@@ -178,34 +163,6 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </ScrollViewer>
-
-        <!--Settings-->
-        <Button
-            Command="{Binding SettingsCommand}"
-            Margin="0,0,10,10" 
-            VerticalAlignment="Bottom" 
-            Height="20" 
-            HorizontalAlignment="Right" 
-            Width="20"
-            Padding="2" 
-            ToolTip="Settings">
-
-            <Image Source="{StaticResource settings}"/>
-        </Button>
-
-        <!--Donation-->
-        <TextBlock 
-            Margin="10,0,0,14" 
-            VerticalAlignment="Bottom" 
-            HorizontalAlignment="Left" 
-            ToolTip="Please click here if you want to support me with a small donation via PayPal">      
-            
-            <Hyperlink 
-                NavigateUri="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=HUALCC9HY9MKC"
-                RequestNavigate="donationLink_RequestNavigate">
-                If you like my work, click here to buy me a beer :)
-            </Hyperlink>
-        </TextBlock>
 
         <!--Notify icon-->
         <uc:BindableTaskbarIcon

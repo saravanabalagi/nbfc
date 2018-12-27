@@ -7,67 +7,189 @@
     xmlns:vm="clr-namespace:NbfcClient.ViewModels"
     
     mc:Ignorable="d"  
-    Height="140" 
-    Background="White"
-    d:DesignHeight="140" 
-    d:DesignWidth="343"             
-    d:DataContext="{d:DesignData Source=../DesignData/FanControllerViewModelData.xaml}">
+    Height="39.25" 
+    Background="White"             
+    d:DataContext="{d:DesignData Source=../DesignData/FanControllerViewModelData.xaml}" Width="332.073">
+    <UserControl.Resources>
+        <SolidColorBrush x:Key="ProgressBar.Progress" Color="#FF06B025"/>
+        <SolidColorBrush x:Key="ProgressBar.Background" Color="#FFE6E6E6"/>
+        <SolidColorBrush x:Key="ProgressBar.Border" Color="#FFBCBCBC"/>
+        <Style x:Key="ProgressBarStyleRounded" TargetType="{x:Type ProgressBar}">
+            <Setter Property="Foreground" Value="{StaticResource ProgressBar.Progress}"/>
+            <Setter Property="Background" Value="{StaticResource ProgressBar.Background}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource ProgressBar.Border}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ProgressBar}">
+                        <Grid x:Name="TemplateRoot">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Determinate"/>
+                                    <VisualState x:Name="Indeterminate">
+                                        <Storyboard RepeatBehavior="Forever">
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="Animation">
+                                                <EasingDoubleKeyFrame KeyTime="0" Value="0.25"/>
+                                                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0.25"/>
+                                                <EasingDoubleKeyFrame KeyTime="0:0:2" Value="0.25"/>
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <PointAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransformOrigin)" Storyboard.TargetName="Animation">
+                                                <EasingPointKeyFrame KeyTime="0" Value="-0.5,0.5"/>
+                                                <EasingPointKeyFrame KeyTime="0:0:1" Value="0.5,0.5"/>
+                                                <EasingPointKeyFrame KeyTime="0:0:2" Value="1.5,0.5"/>
+                                            </PointAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" CornerRadius="10" />
+                            <Rectangle x:Name="PART_Track"/>
+                            <Grid x:Name="PART_Indicator" ClipToBounds="true" HorizontalAlignment="Left">
+                                <Rectangle x:Name="Indicator" Fill="{TemplateBinding Foreground}" RadiusX="10" RadiusY="10"/>
+                                <Rectangle x:Name="Animation" Fill="{TemplateBinding Foreground}" RenderTransformOrigin="0.5,0.5" RadiusX="10" RadiusY="10">
+                                    <Rectangle.RenderTransform>
+                                        <TransformGroup>
+                                            <ScaleTransform/>
+                                            <SkewTransform/>
+                                            <RotateTransform/>
+                                            <TranslateTransform/>
+                                        </TransformGroup>
+                                    </Rectangle.RenderTransform>
+                                </Rectangle>
+                            </Grid>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="Orientation" Value="Vertical">
+                                <Setter Property="LayoutTransform" TargetName="TemplateRoot">
+                                    <Setter.Value>
+                                        <RotateTransform Angle="-90"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsIndeterminate" Value="true">
+                                <Setter Property="Visibility" TargetName="Indicator" Value="Collapsed"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="SliderRepeatButton" TargetType="RepeatButton">
+            <Setter Property="SnapsToDevicePixels" Value="true" />
+            <Setter Property="OverridesDefaultStyle" Value="true" />
+            <Setter Property="IsTabStop" Value="false" />
+            <Setter Property="Focusable" Value="false" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RepeatButton">
+                        <Border  BorderThickness="1" BorderBrush="LightSlateGray" CornerRadius="0,2,2,0" Background="LightSlateGray" Height="3"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="SliderRepeatButton1" TargetType="RepeatButton">
+            <Setter Property="SnapsToDevicePixels" Value="true" />
+            <Setter Property="OverridesDefaultStyle" Value="true" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RepeatButton">
+                        <Border SnapsToDevicePixels="True" Background="Green" CornerRadius="2,0,0,2"  BorderThickness="1" BorderBrush="YellowGreen" Height="3"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="SliderThumb" TargetType="Thumb">
+            <Setter Property="SnapsToDevicePixels" Value="true" />
+            <Setter Property="OverridesDefaultStyle" Value="true" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Thumb">
+                        <Ellipse Height="10" Width="10" Fill="Green"></Ellipse>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <ControlTemplate x:Key="Slider"  TargetType="Slider">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" MinHeight="{TemplateBinding MinHeight}" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Track Grid.Row="1" x:Name="PART_Track"   >
+                    <Track.DecreaseRepeatButton>
+                        <RepeatButton Style="{StaticResource SliderRepeatButton1}"  Command="Slider.DecreaseLarge" />
+                    </Track.DecreaseRepeatButton>
+                    <Track.Thumb>
+                        <Thumb Style="{StaticResource SliderThumb}"  />
+                    </Track.Thumb>
+                    <Track.IncreaseRepeatButton>
+                        <RepeatButton Style="{StaticResource SliderRepeatButton}" Command="Slider.IncreaseLarge" />
+                    </Track.IncreaseRepeatButton>
+                </Track>
+            </Grid>
+        </ControlTemplate>
+        <Style x:Key="Horizontal_Slider" TargetType="Slider">
+            <Setter Property="Focusable" Value="False"/>
+            <Setter Property="SnapsToDevicePixels" Value="true" />
+            <Setter Property="OverridesDefaultStyle" Value="true" />
+            <Style.Triggers>
+                <Trigger Property="Orientation" Value="Horizontal">
+                    <Setter Property="MinHeight" Value="21" />
+                    <Setter Property="MinWidth" Value="104" />
+                    <Setter Property="Template" Value="{StaticResource Slider}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
 
-    <GroupBox 
-        
-        Header="{Binding FanDisplayName}"
-        FontWeight="SemiBold">       
-        
-        <Grid>
-            <Slider 
+    <Grid Tag="wbcd">
+
+        <Label 
+                Content="{Binding FanDisplayName}"
+                FontWeight="Normal"
+                HorizontalAlignment="Left"
+                Width="40"
+                VerticalAlignment="Top" Margin="0,4,0,0" FontSize="14"/>
+
+        <ProgressBar 
+                Value="{Binding CurrentFanSpeed}" 
+                Height="20"
+                Margin="40,8,66,0" 
+                VerticalAlignment="Top" Style="{DynamicResource ProgressBarStyleRounded}" Opacity="0.2" />
+
+        <Slider 
                 Name="FanSpeedSlider" 
-                Height="31" 
+                Height="13" 
                 VerticalAlignment="Top" 
-                Margin="10,12,65,0" 
+                Margin="45,8,71,0" 
                 IsSnapToTickEnabled="True"
                 IsMoveToPointEnabled="True"
                 SmallChange="1"
                 Value="{Binding CurrentFanSpeedLevel, Delay=500}" 
-                Maximum="{Binding FanSpeedSteps, Converter={StaticResource AddOne}}"/>
-            
-            <Label 
-                HorizontalAlignment="Right" 
-                FontWeight="Normal" 
-                Margin="0,9,0,0" 
-                VerticalAlignment="Top" 
-                Width="60">
-                
-                <MultiBinding Converter="{StaticResource SliderValueToString}">
-                    <Binding Path="Value" ElementName="FanSpeedSlider"/>
-                    <Binding Path="FanSpeedSteps"/>
-                </MultiBinding>
-            </Label>
-            
-            <Label 
-                ContentStringFormat="Target fan speed:  {0}"
+                Maximum="{Binding FanSpeedSteps, Converter={StaticResource AddOne}}" Style="{StaticResource Horizontal_Slider}" ValueChanged="FanSpeedSlider_ValueChanged"/>
+
+        <Label 
                 FontWeight="Normal"
-                Margin="6,30,0,0"
+                Margin="0,15,0,-3"
+                Width="60"
+                HorizontalContentAlignment="Left"
+                HorizontalAlignment="Right"
                 VerticalAlignment="Top">
-                
-                <MultiBinding Converter="{StaticResource FanSpeedToString}">
-                    <Binding Path="TargetFanSpeed"/>
-                    <Binding Path="IsAutoFanControlEnabled"/>
-                    <Binding Path="IsCriticalModeEnabled"/>
-                </MultiBinding>
-            </Label>
-            
-            <ProgressBar 
-                Value="{Binding CurrentFanSpeed}" 
-                Height="6"
-                Margin="10,79,65,0" 
-                VerticalAlignment="Top" />
-            
-            <Label 
+
+            <MultiBinding Converter="{StaticResource FanSpeedToString}">
+                <Binding Path="TargetFanSpeed"/>
+                <Binding Path="IsAutoFanControlEnabled"/>
+                <Binding Path="IsCriticalModeEnabled"/>
+            </MultiBinding>
+        </Label>
+        
+        <Label 
                 Content="{Binding CurrentFanSpeed}"
-                ContentStringFormat="Current fan speed:  {0:0.0}%"
+                ContentStringFormat="{}{0:0.0}%"
                 FontWeight="Normal"
-                Margin="6,85,0,0"
-                VerticalAlignment="Top"/>
-        </Grid>
-    </GroupBox>
+                HorizontalContentAlignment="Left"
+                HorizontalAlignment="Right"
+                Width="60" VerticalAlignment="Top" Margin="0,-2,0,0"/>
+    </Grid>
 </UserControl>

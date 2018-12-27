@@ -23,5 +23,10 @@ namespace NbfcClient.UserControls
         {
             InitializeComponent();
         }
+
+        private void FanSpeedSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+
+        }
     }
 }
