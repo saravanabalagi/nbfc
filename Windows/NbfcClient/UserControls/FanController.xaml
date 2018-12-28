@@ -7,9 +7,9 @@
     xmlns:vm="clr-namespace:NbfcClient.ViewModels"
     
     mc:Ignorable="d"  
-    Height="39.25" 
+    Height="40" 
     Background="White"             
-    d:DataContext="{d:DesignData Source=../DesignData/FanControllerViewModelData.xaml}" Width="332.073">
+    d:DataContext="{d:DesignData Source=../DesignData/FanControllerViewModelData.xaml}" Width="330">
     <UserControl.Resources>
         <SolidColorBrush x:Key="ProgressBar.Progress" Color="#FF06B025"/>
         <SolidColorBrush x:Key="ProgressBar.Background" Color="#FFE6E6E6"/>
@@ -146,23 +146,65 @@
     <Grid Tag="wbcd">
 
         <Label 
+                Content="Critical"
+                FontWeight="Normal"
+                HorizontalAlignment="Left"
+                Padding="0"
+                Visibility="{Binding IsCriticalModeEnabled, Converter={StaticResource BoolToVisibility}}"
+                VerticalAlignment="Top" Margin="5,0,0,0" FontSize="8"/>
+
+        <Label 
+                Content="Auto"
+                FontWeight="Normal"
+                HorizontalAlignment="Left"
+                Padding="0"
+                Visibility="{Binding IsAutoFanControlEnabled, Converter={StaticResource BoolToVisibility}}"
+                VerticalAlignment="Top" Margin="8,0,0,0" FontSize="8"/>
+
+        <Label 
                 Content="{Binding FanDisplayName}"
                 FontWeight="Normal"
                 HorizontalAlignment="Left"
                 Width="40"
-                VerticalAlignment="Top" Margin="0,4,0,0" FontSize="14"/>
+                VerticalAlignment="Center" Margin="0,0,0,0" FontSize="14"/>
+
+        <Rectangle 
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            Fill="#FFFF6666" 
+            Height="20" 
+            Stroke="#33000000" 
+            Width="35" 
+            RadiusX="5" 
+            RadiusY="5" 
+            Visibility="{Binding IsCriticalModeEnabled, Converter={StaticResource BoolToVisibility}}"
+            Opacity="0.4" 
+            Margin="0,0,0,0"/>
+
+        <Rectangle 
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            Fill="#FF8888FF" 
+            Height="20" 
+            Stroke="#66000000" 
+            Width="35" 
+            RadiusX="5" 
+            RadiusY="5" 
+            Visibility="{Binding IsAutoFanControlEnabled, Converter={StaticResource BoolToVisibility}}"
+            Opacity="0.4" 
+            Margin="0,0,0,0"/>
 
         <ProgressBar 
                 Value="{Binding CurrentFanSpeed}" 
                 Height="20"
-                Margin="40,8,66,0" 
-                VerticalAlignment="Top" Style="{DynamicResource ProgressBarStyleRounded}" Opacity="0.2" />
+                Margin="40,0,66,0" 
+                VerticalAlignment="Center" Style="{DynamicResource ProgressBarStyleRounded}" Opacity="0.2" />
 
         <Slider 
                 Name="FanSpeedSlider" 
                 Height="13" 
-                VerticalAlignment="Top" 
-                Margin="45,8,71,0" 
+                VerticalAlignment="Center" 
+                Margin="45,0,71,0" 
                 IsSnapToTickEnabled="True"
                 IsMoveToPointEnabled="True"
                 SmallChange="1"
@@ -171,25 +213,24 @@
 
         <Label 
                 FontWeight="Normal"
-                Margin="0,15,0,-3"
+                FontSize="10px"
+                Margin="0,17,0,-3"
                 Width="60"
-                HorizontalContentAlignment="Left"
+                Content="{Binding TargetFanSpeed}"
+                ContentStringFormat="{}{0:0.0}%"
+                HorizontalContentAlignment="Center"
                 HorizontalAlignment="Right"
-                VerticalAlignment="Top">
+                VerticalAlignment="Top" />
 
-            <MultiBinding Converter="{StaticResource FanSpeedToString}">
-                <Binding Path="TargetFanSpeed"/>
-                <Binding Path="IsAutoFanControlEnabled"/>
-                <Binding Path="IsCriticalModeEnabled"/>
-            </MultiBinding>
-        </Label>
-        
         <Label 
                 Content="{Binding CurrentFanSpeed}"
                 ContentStringFormat="{}{0:0.0}%"
                 FontWeight="Normal"
-                HorizontalContentAlignment="Left"
+                FontSize="10px"
+                HorizontalContentAlignment="Center"
                 HorizontalAlignment="Right"
                 Width="60" VerticalAlignment="Top" Margin="0,-2,0,0"/>
+        <Border 
+            BorderBrush="#66000000" BorderThickness="0.5" HorizontalAlignment="Left" Height="1" Margin="277,0,0,0" VerticalAlignment="Center" Width="44"/>
     </Grid>
 </UserControl>
