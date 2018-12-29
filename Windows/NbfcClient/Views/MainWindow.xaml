@@ -1,4 +1,5 @@
-﻿<Window 
+﻿<Controls:MetroWindow
+    xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
     x:Class="NbfcClient.Windows.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"             
@@ -41,7 +42,6 @@
 		    VerticalAlignment="Top" />
 
         <Rectangle
-            
             Fill="White" Margin="0,38,0,0"></Rectangle>
 
         <!--Config selector-->
@@ -80,70 +80,72 @@
         <!--Version-->
         <Label 
             Content="{Binding Version}" 
-            Margin="0,43,10,0" 
+            Margin="0,224,10,0" 
             VerticalAlignment="Top" 
             Foreground="{StaticResource BorderBrush}" 
             HorizontalAlignment="Right" 
             FontFamily="Segoe UI Light"/>
 
         <!--Service status-->
-        <TextBlock 
-            Text="Fan control service status:"
-            HorizontalAlignment="Left" 
-            Margin="18,48,0,0"
+
+        <StackPanel
+            Margin="10,50,10,10"
             VerticalAlignment="Top"
-            FontWeight="Medium"
-            Foreground="{StaticResource HeaderBrush}"/>
+            Orientation="Horizontal">
 
-        <StackPanel 
-            Orientation="Horizontal"
-            HorizontalAlignment="Stretch" 
-            VerticalAlignment="Top" 
-            Margin="26,69,48,0" 
-            Height="18">
-
-            <RadioButton 
-                Content="Disabled" 
-                HorizontalAlignment="Left" 
+            <Controls:ToggleSwitch 
+                FontSize="14px"
+                FontFamily="Calibri"
+                FontWeight="Light"
+                MinWidth="150"
+                Focusable="False"
+                Header="Status"
+                OnLabel="Enabled" 
+                HorizontalAlignment="Right"
                 VerticalAlignment="Top"
-                IsChecked="{Binding IsServiceDisabled}"
-                Margin="0,0,7,0"/>
+                Padding="0"
+                IsChecked="{Binding IsServiceEnabled}"
+                OffLabel="Read-only" 
+                Margin="10" />
 
-            <RadioButton 
-                Content="Read-only" 
-                HorizontalAlignment="Left" 
-                VerticalAlignment="Top"
-                IsChecked="{Binding IsServiceReadOnly}" 
-                Margin="0,0,7,0" />
+            <Border BorderBrush="#66000000" 
+                    BorderThickness="0.5" 
+                    HorizontalAlignment="Left" 
+                    Margin="10,0"
+                    Height="82"  
+                    VerticalAlignment="Top" 
+                    Width="2"/>
 
-            <RadioButton 
-                Content="Enabled" 
-                HorizontalAlignment="Left" 
+
+            <!--Temperature-->
+            <StackPanel
+                Margin="10"
                 VerticalAlignment="Top"
-                IsChecked="{Binding IsServiceEnabled}" />
+                HorizontalAlignment="Left"
+                Orientation="Vertical">
+                
+                <TextBlock 
+                    HorizontalAlignment="Left"
+                    Text="{Binding TemperatureSourceName, StringFormat=Temperature (\{0\}):}" 
+                    VerticalAlignment="Top" 
+                    Margin="0"
+                    FontWeight="Medium"
+                    Foreground="{StaticResource HeaderBrush}"/>
+
+                <TextBlock 
+                    Margin="0,5"
+                    HorizontalAlignment="Left"
+                    FontSize="30px"
+                    Text="{Binding Temperature, StringFormat=\{0\}°C}"
+                    VerticalAlignment="Top"/>
+                
+            </StackPanel>
+
         </StackPanel>
 
-        <!--Temperature-->
-        <StackPanel 
-            Orientation="Horizontal" 
-            Height="18" 
-            Margin="18,98,48,0" 
-            VerticalAlignment="Top">
+        
 
-            <TextBlock 
-                HorizontalAlignment="Left"
-                Text="{Binding TemperatureSourceName, StringFormat=Temperature (\{0\}):}" 
-                VerticalAlignment="Top" 
-                Margin="0,0,7,0"
-                FontWeight="Medium"
-                Foreground="{StaticResource HeaderBrush}"/>
-
-            <TextBlock 
-                HorizontalAlignment="Left"
-                Text="{Binding Temperature, StringFormat=\{0\}°C}"
-                VerticalAlignment="Top"/>
-        </StackPanel>
-
+        
         <!--Fan info-->
         <ScrollViewer 
             Focusable="False"
@@ -181,4 +183,4 @@
             </uc:BindableTaskbarIcon.TrayToolTip>
         </uc:BindableTaskbarIcon>
     </Grid>
-</Window>
+</Controls:MetroWindow>

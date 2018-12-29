@@ -105,12 +105,22 @@ namespace NbfcClient.ViewModels
             get { return this.isServiceEnabled; }
             set
             {
-                if (Set(ref this.isServiceEnabled, value) && value)
+                if (Set(ref this.isServiceEnabled, value))
                 {
-                    client.Start(false);
-                    IsServiceDisabled = false;
-                    IsServiceReadOnly = false;
-                    Refresh(true);
+                    if(value)
+                    {
+                        client.Start(false);
+                        IsServiceDisabled = false;
+                        IsServiceReadOnly = false;
+                        Refresh(true);
+                    } else
+                    {
+                        client.Start(true);
+                        IsServiceDisabled = false;
+                        IsServiceEnabled = false;
+                        Refresh(true);
+                    }
+                    
                 }
             }
         }

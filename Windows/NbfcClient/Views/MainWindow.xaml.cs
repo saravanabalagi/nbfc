@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Threading;
+using MahApps.Metro.Controls;
 using SettingsService = StagWare.Settings.SettingsService<NbfcClient.AppSettings>;
 
 namespace NbfcClient.Windows
@@ -12,7 +13,7 @@ namespace NbfcClient.Windows
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : MetroWindow
     {
         #region Constants
 
