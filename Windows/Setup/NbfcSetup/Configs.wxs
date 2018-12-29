@@ -116,6 +116,9 @@
             <Component Id="cmp70459DCB1319EED2BDDF79ABA31E23CF" Directory="ConfigsFolder" Guid="*">
                 <File Id="filE0D8B8B54ACEC48F250622548F93B828" KeyPath="yes" Source="$(var.ConfigsDir)\Acer LT-10Q.xml" />
             </Component>
+            <Component Id="cmp4055F1D3AB7408A76A82FB26B7B32EA8" Directory="ConfigsFolder" Guid="*">
+                <File Id="filD91B841E724B94AAE6008DE986F0E85B" KeyPath="yes" Source="$(var.ConfigsDir)\Acer Predator G3-572.xml" />
+            </Component>
             <Component Id="cmp5083A82F29D735262C5B602AAF287A59" Directory="ConfigsFolder" Guid="*">
                 <File Id="fil956D1FB76F62BABED977CDC539924BED" KeyPath="yes" Source="$(var.ConfigsDir)\Acer TravelMate 7730G.xml" />
             </Component>
@@ -445,6 +448,9 @@
             </Component>
             <Component Id="cmpE650A86EF276218C961EF544C5A3FC12" Directory="ConfigsFolder" Guid="*">
                 <File Id="fil6FFC9F41D35AAF8FE34AA79AD6AF0134" KeyPath="yes" Source="$(var.ConfigsDir)\Lenovo ThinkPad x121e.xml" />
+            </Component>
+            <Component Id="cmp737978FBF1FE311CDED17B749E6E7EE2" Directory="ConfigsFolder" Guid="*">
+                <File Id="fil453F2E731DF9A81CF572E759801FE825" KeyPath="yes" Source="$(var.ConfigsDir)\Lenovo ThinkPad x220i.xml" />
             </Component>
             <Component Id="cmp9A540EFB0267DDFC74FE1EB3C93548CF" Directory="ConfigsFolder" Guid="*">
                 <File Id="filB028C6B6F980F20A76C49A04D179016F" KeyPath="yes" Source="$(var.ConfigsDir)\Lenovo ThinkPad x230.xml" />

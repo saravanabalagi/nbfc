@@ -5,6 +5,5 @@
     Temperature="50"
     TemperatureSourceName="CPU/HDD"
     IsServiceEnabled="True" 
-    SelectedConfig="HP ProBook 6465b" 
-    Version="1.2.3"/>
+    SelectedConfig="HP ProBook 6465b"/>
     

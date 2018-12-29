@@ -21,7 +21,6 @@ namespace NbfcClient.ViewModels
         private readonly TrayIconRenderer renderer;
         private BitmapSource trayIcon;
 
-        private string version;
         private string selectedConfig;
         private bool isServiceReadOnly;
         private bool isServiceDisabled;
@@ -56,19 +55,7 @@ namespace NbfcClient.ViewModels
 
         #region Properties
 
-        public string Version
-        {
-            get
-            {
-                if (this.version == null)
-                {
-                    this.version = GetInformationalVersionString();
-                }
-
-                return version;
-            }
-        }
-
+        
         public string SelectedConfig
         {
             get { return this.selectedConfig; }
@@ -265,22 +252,6 @@ namespace NbfcClient.ViewModels
         private static void SendOpenSettingsDialogMessage()
         {
             Messenger.Default.Send(new OpenSettingsDialogMessage());
-        }
-
-        private static string GetInformationalVersionString()
-        {
-            var attribute = (AssemblyInformationalVersionAttribute)Assembly.GetExecutingAssembly()
-                .GetCustomAttributes(typeof(AssemblyInformationalVersionAttribute), false)
-                .FirstOrDefault();
-
-            if (attribute == null)
-            {
-                return string.Empty;
-            }
-            else
-            {
-                return attribute.InformationalVersion;
-            }
         }
 
         #endregion        

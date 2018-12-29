@@ -1,12 +1,13 @@
-﻿<Window 
+﻿<Controls:MetroWindow 
     x:Class="NbfcClient.Windows.SettingsWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:v="clr-namespace:NbfcClient.Views"
+    xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         
     Title="Settings" 
-    Height="175" 
-    Width="260" 
+    Height="235" 
+    Width="350" 
     ResizeMode="NoResize" 
     WindowStartupLocation="CenterOwner"
     Icon="/NoteBookFanControl;component/fan.ico"
@@ -124,5 +125,57 @@
                 </Style>
             </ComboBox.ItemContainerStyle>
         </ComboBox>
+
+        <!--Version-->
+        <StackPanel
+            Margin="0,0,0,15"
+            Orientation="Horizontal"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Bottom">
+
+            <StackPanel
+                ForceCursor="true" Cursor="Hand"
+                MouseLeftButtonUp="StackPanel_MouseLeftButtonUp_Repo"
+                VerticalAlignment="Center">
+                
+                <Label Padding="0"
+                   HorizontalAlignment="Right"
+                   Content="Version" />
+
+                <Label 
+                Padding="0"
+                FontSize="20px"
+                HorizontalAlignment="Right"
+                Content="{Binding Version}" />
+                
+            </StackPanel>
+
+            <Border BorderBrush="#33000000" 
+                    BorderThickness="0.5" 
+                    HorizontalAlignment="Left" 
+                    Margin="20,0"
+                    Height="50"  
+                    VerticalAlignment="Top" 
+                    Width="2"/>
+
+            <StackPanel
+                ForceCursor="true" Cursor="Hand"
+                MouseLeftButtonUp="StackPanel_MouseLeftButtonUp_Profile"
+                VerticalAlignment="Center">
+
+                <Label Padding="0"
+                   HorizontalAlignment="Left"
+                   Content="Design by" />
+
+                <Label 
+                    Padding="0"
+                    FontSize="20px"
+                    HorizontalAlignment="Left"
+                    Content="Saravanabalagi" />
+
+            </StackPanel>
+
+        </StackPanel>
+
     </Grid>
-</Window>
+</Controls:MetroWindow>

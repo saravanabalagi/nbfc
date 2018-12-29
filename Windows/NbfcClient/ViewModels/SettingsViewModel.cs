@@ -3,6 +3,7 @@ using GalaSoft.MvvmLight.Messaging;
 using NbfcClient.Messages;
 using StagWare.Windows;
 using System.Linq;
+using System.Reflection;
 using System.Windows.Media;
 using SettingsService = StagWare.Settings.SettingsService<NbfcClient.AppSettings>;
 
@@ -26,7 +27,7 @@ namespace NbfcClient.ViewModels
         private bool closeToTray;
         private bool autostart;
         private Color trayIconColor;
-
+        private string version;
         #endregion
 
         #region Constructors
@@ -43,6 +44,18 @@ namespace NbfcClient.ViewModels
         #endregion
 
         #region Properties        
+
+        public string Version {
+            get {
+                if (this.version == null)
+                {
+                    this.version = GetInformationalVersionString();
+                }
+
+                return version;
+            }
+        }
+
 
         public bool CloseToTray
         {
@@ -86,6 +99,26 @@ namespace NbfcClient.ViewModels
         }
 
         public Color[] AvailableColors { get { return availableColors; } }
+
+        #endregion
+
+        #region Private Methods
+
+        private static string GetInformationalVersionString()
+        {
+            var attribute = (AssemblyInformationalVersionAttribute)Assembly.GetExecutingAssembly()
+                .GetCustomAttributes(typeof(AssemblyInformationalVersionAttribute), false)
+                .FirstOrDefault();
+
+            if (attribute == null)
+            {
+                return string.Empty;
+            }
+            else
+            {
+                return attribute.InformationalVersion;
+            }
+        }
 
         #endregion
     }

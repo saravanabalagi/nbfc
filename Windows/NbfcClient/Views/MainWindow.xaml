@@ -60,14 +60,7 @@
             Fill="White" Margin="0,38,0,0"></Rectangle>
 
         <!--Config selector-->
-        <DockPanel Margin="0,0,38,0" Height="38" VerticalAlignment="Top">
-
-            <TextBlock 
-                Text="Profile" 
-                DockPanel.Dock="Left"
-                VerticalAlignment="Center" 
-                Margin="10,0,6,0"
-                Foreground="{StaticResource HeaderBrush}"/>
+        <DockPanel Margin="10,0,10,0" Height="38" VerticalAlignment="Top">
 
             <Button
                 Command="{Binding SelectConfigCommand}"
@@ -76,16 +69,8 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center" 
                 VerticalContentAlignment="Center" />
+            
         </DockPanel>
-
-        <!--Version-->
-        <Label 
-            Content="{Binding Version}" 
-            Margin="0,224,10,0" 
-            VerticalAlignment="Top" 
-            Foreground="{StaticResource BorderBrush}" 
-            HorizontalAlignment="Right" 
-            FontFamily="Segoe UI Light"/>
 
         <!--Service status-->
 
