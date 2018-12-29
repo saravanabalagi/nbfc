@@ -23,11 +23,26 @@
     d:DataContext="{d:DesignData Source=../DesignData/MainWindowViewModelData.xaml}"
     DataContext="{Binding Main, Source={StaticResource ViewModelLocator}}">
 
+    <Controls:MetroWindow.RightWindowCommands>
+        <Controls:WindowCommands>
+            <Button 
+                Command="{Binding SettingsCommand}"
+                Content="Settings" />
+        </Controls:WindowCommands>
+    </Controls:MetroWindow.RightWindowCommands>
+
     <Window.Resources>
         <SolidColorBrush x:Key="HeaderBrush" Color="#FF191919"/>
         <SolidColorBrush x:Key="BorderBrush" Color="#FF999999"/>
     </Window.Resources>
 
+    <Window.InputBindings>
+        <KeyBinding 
+            Gesture="Ctrl+Alt+1" 
+            HotkeyManager.RegisterGlobalHotkey="True" 
+            Command="{Binding ToggleFanControlStatusCommand}" />
+    </Window.InputBindings>
+    
     <Grid Margin="0,0,0,0" Height="250
           " VerticalAlignment="Top">
         <!--Background-->
@@ -48,7 +63,7 @@
         <DockPanel Margin="0,0,38,0" Height="38" VerticalAlignment="Top">
 
             <TextBlock 
-                Text="Selected config:" 
+                Text="Profile" 
                 DockPanel.Dock="Left"
                 VerticalAlignment="Center" 
                 Margin="10,0,6,0"
@@ -62,20 +77,6 @@
                 VerticalAlignment="Center" 
                 VerticalContentAlignment="Center" />
         </DockPanel>
-
-        <!--Settings-->
-        <Button
-            Command="{Binding SettingsCommand}"
-            Margin="0,8,8,0" 
-            VerticalAlignment="Top" 
-            Height="23" 
-            HorizontalAlignment="Right" 
-            Width="23"
-            Padding="2" 
-            ToolTip="Settings">
-
-            <Image Source="{StaticResource settings}"/>
-        </Button>
 
         <!--Version-->
         <Label 
@@ -129,7 +130,7 @@
                     Text="{Binding TemperatureSourceName, StringFormat=Temperature (\{0\}):}" 
                     VerticalAlignment="Top" 
                     Margin="0"
-                    FontWeight="Medium"
+                    FontWeight="Light"
                     Foreground="{StaticResource HeaderBrush}"/>
 
                 <TextBlock 

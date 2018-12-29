@@ -4,6 +4,7 @@ using GalaSoft.MvvmLight.Messaging;
 using NbfcClient.Messages;
 using NbfcClient.NbfcService;
 using NbfcClient.Services;
+using Notifications.Wpf;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
@@ -31,6 +32,10 @@ namespace NbfcClient.ViewModels
 
         private RelayCommand selectConfigCommand;
         RelayCommand settingsCommand;
+        RelayCommand toggleFanControlStatusCommand;
+
+        private NotificationManager notificationManager = new NotificationManager();
+
 
         #endregion
 
@@ -179,6 +184,19 @@ namespace NbfcClient.ViewModels
             }
         }
 
+        public RelayCommand ToggleFanControlStatusCommand
+        {
+            get
+            {
+                if (this.toggleFanControlStatusCommand == null)
+                {
+                    this.toggleFanControlStatusCommand = new RelayCommand(ToggleFanControlStatus);
+                }
+
+                return this.toggleFanControlStatusCommand;
+            }
+        }
+
         #endregion
 
         #region Private Methods
@@ -186,6 +204,17 @@ namespace NbfcClient.ViewModels
         private void Refresh(ReloadFanControlInfoMessage msg)
         {
             Refresh(msg.IgnoreCache);
+        }
+
+        private void ToggleFanControlStatus()
+        {
+            IsServiceEnabled = !IsServiceEnabled;
+            notificationManager.Show(new NotificationContent
+            {
+                Title = "NBFC " + (IsServiceEnabled ? "On" : "Off"),
+                Message = "Notebook Fan Control has been " + (IsServiceEnabled ? "set to manual mode": "set to read-only mode"),
+                Type = IsServiceEnabled ? NotificationType.Warning : NotificationType.Success
+            });
         }
 
         private void Refresh(bool ignoreCache)
@@ -222,7 +251,7 @@ namespace NbfcClient.ViewModels
                 this.fanControllers.Clear();
 
                 for (int i = 0; i < info.FanStatus.Length; i++)
-                {
+                {   
                     fanControllers.Add(new FanControllerViewModel(client, i));
                 }
             }
