@@ -6,7 +6,7 @@
     xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         
     Title="Settings" 
-    Height="235" 
+    Height="259" 
     Width="350" 
     ResizeMode="NoResize" 
     WindowStartupLocation="CenterOwner"
@@ -129,52 +129,74 @@
         <!--Version-->
         <StackPanel
             Margin="0,0,0,15"
-            Orientation="Horizontal"
+            Orientation="Vertical"
             HorizontalAlignment="Center"
             VerticalAlignment="Bottom">
 
             <StackPanel
-                ForceCursor="true" Cursor="Hand"
-                MouseLeftButtonUp="StackPanel_MouseLeftButtonUp_Repo"
-                VerticalAlignment="Center">
-                
-                <Label Padding="0"
-                   HorizontalAlignment="Right"
-                   Content="Version" />
+                Orientation="Horizontal"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom">
 
-                <Label 
-                Padding="0"
-                FontSize="20px"
-                HorizontalAlignment="Right"
-                Content="{Binding Version}" />
-                
+                <StackPanel
+                    ForceCursor="true" Cursor="Hand"
+                    MouseLeftButtonUp="StackPanel_MouseLeftButtonUp_Repo"
+                    VerticalAlignment="Center">
+
+                    <Label Padding="0"
+                       HorizontalAlignment="Right"
+                       Content="Version" />
+
+                    <Label 
+                    Padding="0"
+                    FontSize="20px"
+                    HorizontalAlignment="Right"
+                    Content="{Binding Version}" />
+
+                </StackPanel>
+
+                <Border BorderBrush="#33000000" 
+                        BorderThickness="0.5" 
+                        HorizontalAlignment="Left" 
+                        Margin="15,0"
+                        Height="50"  
+                        VerticalAlignment="Top" 
+                        Width="2"/>
+
+                <StackPanel
+                    ForceCursor="true" Cursor="Hand"
+                    MouseLeftButtonUp="StackPanel_MouseLeftButtonUp_Profile"
+                    VerticalAlignment="Center">
+
+                    <Label Padding="0"
+                       HorizontalAlignment="Left"
+                       Content="Design by" />
+
+                    <Label 
+                        Padding="0"
+                        FontSize="20px"
+                        HorizontalAlignment="Left"
+                        Content="Saravanabalagi" />
+
+                </StackPanel>
+
             </StackPanel>
 
             <Border BorderBrush="#33000000" 
-                    BorderThickness="0.5" 
-                    HorizontalAlignment="Left" 
-                    Margin="20,0"
-                    Height="50"  
-                    VerticalAlignment="Top" 
-                    Width="2"/>
+                        BorderThickness="0.5" 
+                        HorizontalAlignment="Center" 
+                        Margin="20,5"
+                        Height="2"  
+                        VerticalAlignment="Top" 
+                        Width="200"/>
 
-            <StackPanel
-                ForceCursor="true" Cursor="Hand"
-                MouseLeftButtonUp="StackPanel_MouseLeftButtonUp_Profile"
-                VerticalAlignment="Center">
-
-                <Label Padding="0"
-                   HorizontalAlignment="Left"
-                   Content="Design by" />
-
-                <Label 
-                    Padding="0"
-                    FontSize="20px"
-                    HorizontalAlignment="Left"
-                    Content="Saravanabalagi" />
-
-            </StackPanel>
-
+            <Label 
+                        Cursor="Hand"
+                        MouseLeftButtonUp="StackPanel_MouseLeftButtonUp_Fork"
+                        Padding="0"
+                        FontSize="11px"
+                        HorizontalAlignment="Center"
+                        Content="Forked from hirschmann/nbfc" />
         </StackPanel>
 
     </Grid>

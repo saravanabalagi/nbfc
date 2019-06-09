@@ -15,11 +15,12 @@
     <Button Name="HelpCancelButton" X="-11" Y="-11" Width="75" Height="23" TabStop="yes" FontId="0">#(loc.HelpCloseButton)</Button>
   </Page>
   <Page Name="Install">
-    <Text X="120" Y="11" Width="-11" Height="32" FontId="1" DisablePrefix="yes">#(loc.Title)</Text>
+    <Text X="120" Y="11" Width="-11" Height="1" FontId="1" DisablePrefix="yes">#(loc.Title)</Text>
     <Image X="11" Y="11" Width="96" Height="350" ImageFile="logoside.png"/>
-    <Text X="120" Y="50" Width="-11" Height="32" FontId="2" DisablePrefix="yes">#(loc.InstallHeader)</Text>
-    <Text X="120" Y="91" Width="-11" Height="64" FontId="3" DisablePrefix="yes">#(loc.InstallMessage)</Text><!-- HexStyle="0x800000" -->
-    <Text X="120" Y="-81" Width="-11" Height="17" FontId="3" DisablePrefix="yes">#(loc.InstallVersion)</Text>
+    <Text X="120" Y="10" Width="-11" Height="32" FontId="2" DisablePrefix="yes">#(loc.InstallHeader)</Text>
+    <Text X="120" Y="60" Width="-22" Height="100" FontId="3" DisablePrefix="yes">#(loc.InstallMessage)</Text><!-- HexStyle="0x800000" -->
+    <Text X="120" Y="-131" Width="-11" Height="32" FontId="2" DisablePrefix="yes">#(loc.InstallHeader2)</Text>
+    <Text X="120" Y="-81" Width="-11" Height="34" FontId="3" DisablePrefix="yes">#(loc.InstallVersion)</Text>
     <Button Name="OptionsButton" X="-171" Y="-11" Width="75" Height="23" TabStop="yes" FontId="0" HideWhenDisabled="yes">#(loc.InstallOptionsButton)</Button>
     <Button Name="InstallButton" X="-91" Y="-11" Width="75" Height="23" TabStop="yes" FontId="0">#(loc.InstallInstallButton)</Button>
     <Button Name="WelcomeCancelButton" X="-11" Y="-11" Width="75" Height="23" TabStop="yes" FontId="0">#(loc.InstallCloseButton)</Button>

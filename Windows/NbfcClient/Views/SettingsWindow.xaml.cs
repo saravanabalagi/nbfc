@@ -23,5 +23,10 @@ namespace NbfcClient.Windows
         {
             Process.Start("https://www.github.com/saravanabalagi/nbfc");
         }
+
+        private void StackPanel_MouseLeftButtonUp_Fork(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            Process.Start("https://www.github.com/hirschmann/nbfc");
+        }
     }
 }

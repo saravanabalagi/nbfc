@@ -3,8 +3,12 @@
   <String Id="Caption">[WixBundleName] Setup</String>
   <String Id="Title">[WixBundleName]</String>
   <String Id="InstallHeader">Welcome</String>
-  <String Id="InstallMessage">Setup will install [WixBundleName] on your computer. Click install to continue, options to set the install directory or Close to exit.</String>
-  <String Id="InstallVersion">Version [WixBundleVersion]</String>
+  <String Id="InstallHeader2">Installation Details</String>
+  <String Id="InstallMessage">Setup will install [WixBundleName] on your computer. Click install to continue, options to set the install directory or Close to exit.
+  
+This software has been redesigned by Saravanabalagi Ramachandran, but you can also choose to install the original version from https://github.com/hirschmann/nbfc.</String>
+  <String Id="InstallVersion">[WixBundleName]
+Version [WixBundleVersion]</String>
   <String Id="ConfirmCancelMessage">Are you sure you want to cancel?</String>
   <String Id="HelpHeader">Setup Help</String>
   <String Id="HelpText">/install | /repair | /uninstall | /layout [directory] - installs, repairs, uninstalls or creates a complete local copy of the bundle in directory. Install is the default.

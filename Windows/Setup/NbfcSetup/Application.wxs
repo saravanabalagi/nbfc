@@ -246,6 +246,51 @@
               Source="$(var.NbfcClient.TargetDir)NLog.dll"/>
       </Component>
 
+      <Component Id="App.Notifications.Wpf.Sarav" Guid="0EE8A12D-BE05-4381-A436-4DEE5929EFA8">
+        <File Id="Notifications.Wpf.Sarav.dll"
+              Name="Notifications.Wpf.Sarav.dll"
+              DiskId="1"
+              Vital="yes"
+              KeyPath="yes"
+              Source="$(var.NbfcClient.TargetDir)Notifications.Wpf.Sarav.dll"/>
+      </Component>
+
+      <Component Id="App.MahApps.Metro" Guid="7700F9F9-CC3F-48D0-AC09-E34884EA98D7">
+        <File Id="MahApps.Metro.dll"
+              Name="MahApps.Metro.dll"
+              DiskId="1"
+              Vital="yes"
+              KeyPath="yes"
+              Source="$(var.NbfcClient.TargetDir)MahApps.Metro.dll"/>
+      </Component>
+
+      <Component Id="App.NHotkey" Guid="D19D53F1-93B2-4BE1-81A7-97B51BC3E6B4">
+        <File Id="NHotkey.dll"
+              Name="NHotkey.dll"
+              DiskId="1"
+              Vital="yes"
+              KeyPath="yes"
+              Source="$(var.NbfcClient.TargetDir)NHotkey.dll"/>
+      </Component>
+
+      <Component Id="App.NHotkey.Wpf" Guid="FDE171B6-918E-4F5F-B0A6-F387F66445D7">
+        <File Id="NHotkey.Wpf.dll"
+              Name="NHotkey.Wpf.dll"
+              DiskId="1"
+              Vital="yes"
+              KeyPath="yes"
+              Source="$(var.NbfcClient.TargetDir)NHotkey.Wpf.dll"/>
+      </Component>
+
+      <Component Id="App.ControlzEx" Guid="1C844A47-9D78-4678-A9E2-9EADEC4F0E39">
+        <File Id="ControlzEx.dll"
+              Name="ControlzEx.dll"
+              DiskId="1"
+              Vital="yes"
+              KeyPath="yes"
+              Source="$(var.NbfcClient.TargetDir)ControlzEx.dll"/>
+      </Component>
+
       <Component Id="App.ConfigEditor" Guid="C3D8D023-75AB-49F5-B276-75E80FA87DBF">
         <File Id="ConfigEditor.exe" 
               Name="ConfigEditor.exe" 
