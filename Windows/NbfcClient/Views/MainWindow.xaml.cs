@@ -98,12 +98,14 @@ namespace NbfcClient.Windows
         {
             close = true;
             Close();
+            System.Windows.Application.Current.Shutdown();
         }
 
         void Current_SessionEnding(object sender, SessionEndingCancelEventArgs e)
         {
             close = true;
             Close();
+            System.Windows.Application.Current.Shutdown();
         }
 
         private void notifyIcon_TrayLeftMouseDown(object sender, RoutedEventArgs e)
@@ -127,6 +129,10 @@ namespace NbfcClient.Windows
             {
                 e.Cancel = true;
                 WindowState = System.Windows.WindowState.Minimized;
+            }
+            else
+            {
+                System.Windows.Application.Current.Shutdown();
             }
         }
 

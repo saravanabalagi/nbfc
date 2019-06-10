@@ -127,10 +127,21 @@ namespace StagWare.FanControl.Tests
                 A.CallTo(() => ec.IsInitialized).Returns(true);
                 A.CallTo(() => ec.AcquireLock(A<int>.Ignored)).Returns(true);
 
-                var tempMon = A.Fake<ITemperatureMonitor>();
-                A.CallTo(() => tempMon.IsInitialized).Returns(true);
+                var cpuTempMon = A.Fake<ITemperatureMonitor>();
+                A.CallTo(() => cpuTempMon.IsInitialized).Returns(true);
 
-                using (var fanControl = new FanControl(cfg, filter, ec, tempMon))
+                using (var fanControl = new FanControl(cfg, filter, ec, cpuTempMon))
+                {
+                    fanControl.Start(false);
+
+                    A.CallTo(() => ec.WriteByte((byte)registerWriteCfg.Register, (byte)registerWriteCfg.Value))
+                        .MustHaveHappened();
+                }
+
+                var gpuTempMon = A.Fake<ITemperatureMonitor>();
+                A.CallTo(() => gpuTempMon.IsInitialized).Returns(true);
+
+                using (var fanControl = new FanControl(cfg, filter, ec, cpuTempMon, gpuTempMon))
                 {
                     fanControl.Start(false);
 

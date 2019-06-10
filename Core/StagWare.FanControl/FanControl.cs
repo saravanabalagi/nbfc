@@ -46,12 +46,14 @@ namespace StagWare.FanControl
         private readonly FanControlConfigV2 config;
 
         private readonly ITemperatureFilter tempFilter;
-        private readonly ITemperatureMonitor tempMon;
+        private readonly ITemperatureMonitor cpuTempMon;
+        private readonly ITemperatureMonitor gpuTempMon;
         private readonly IEmbeddedController ec;
         private readonly Fan[] fans;
 
         private volatile bool readOnly;
-        private volatile float temperature;
+        private volatile float cpuTemperature;
+        private volatile float gpuTemperature;
         private volatile FanInformation[] fanInfo;
         private readonly float[] requestedSpeeds;
 
@@ -74,6 +76,7 @@ namespace StagWare.FanControl
             config,
             filter,
             LoadPlugin<IEmbeddedController>(pluginsDirectory),
+            LoadPlugin<ITemperatureMonitor>(pluginsDirectory),
             LoadPlugin<ITemperatureMonitor>(pluginsDirectory))
         {
         }
@@ -82,7 +85,8 @@ namespace StagWare.FanControl
             FanControlConfigV2 config,
             ITemperatureFilter filter,
             IEmbeddedController ec,
-            ITemperatureMonitor tempMon)
+            ITemperatureMonitor cpuTempMon,
+            ITemperatureMonitor gpuTempMon)
         {
             if (config == null)
             {
@@ -99,13 +103,19 @@ namespace StagWare.FanControl
                 throw new ArgumentNullException(nameof(ec));
             }
 
-            if (tempMon == null)
+            if (cpuTempMon == null)
             {
-                throw new ArgumentNullException(nameof(tempMon));
+                throw new ArgumentNullException(nameof(cpuTempMon));
+            }
+
+            if (gpuTempMon == null)
+            {
+                throw new ArgumentNullException(nameof(gpuTempMon));
             }
 
             this.ec = ec;
-            this.tempMon = tempMon;
+            this.cpuTempMon = cpuTempMon;
+            this.gpuTempMon = gpuTempMon;
             this.tempFilter = filter;
             this.config = (FanControlConfigV2)config.Clone();
             this.pollInterval = config.EcPollInterval;
@@ -134,8 +144,83 @@ namespace StagWare.FanControl
             FanControlConfigV2 config,
             ITemperatureFilter filter,
             IEmbeddedController ec,
-            ITemperatureMonitor tempMon,
-            Fan[] fans) : this(config, filter, ec, tempMon)
+            ITemperatureMonitor cpuTempMon,
+            ITemperatureMonitor gpuTempMon,
+            Fan[] fans) : this(config, filter, ec, cpuTempMon, gpuTempMon)
+        {
+            if (fans == null)
+            {
+                throw new ArgumentNullException(nameof(fans));
+            }
+
+            if (fans.Length != this.fans.Length)
+            {
+                throw new ArgumentException(
+                    "The length must be equal to the number of fan configurations",
+                    nameof(fans));
+            }
+
+            this.fans = fans;
+        }
+
+        public FanControl(
+            FanControlConfigV2 config,
+            ITemperatureFilter filter,
+            IEmbeddedController ec,
+            ITemperatureMonitor cpuTempMon)
+        {
+            if (config == null)
+            {
+                throw new ArgumentNullException(nameof(config));
+            }
+
+            if (filter == null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
+            if (ec == null)
+            {
+                throw new ArgumentNullException(nameof(ec));
+            }
+
+            if (cpuTempMon == null)
+            {
+                throw new ArgumentNullException(nameof(cpuTempMon));
+            }
+
+            this.ec = ec;
+            this.cpuTempMon = cpuTempMon;
+            this.tempFilter = filter;
+            this.config = (FanControlConfigV2)config.Clone();
+            this.pollInterval = config.EcPollInterval;
+            this.requestedSpeeds = new float[config.FanConfigurations.Count];
+            this.fanInfo = new FanInformation[config.FanConfigurations.Count];
+            this.fans = new Fan[config.FanConfigurations.Count];
+            this.lockTimeout = Math.Min(MaxLockTimeout, config.EcPollInterval);
+            this.asyncOp = AsyncOperationManager.CreateOperation(null);
+
+            for (int i = 0; i < config.FanConfigurations.Count; i++)
+            {
+                var cfg = this.config.FanConfigurations[i];
+
+                if (string.IsNullOrWhiteSpace(cfg.FanDisplayName))
+                {
+                    cfg.FanDisplayName = "Fan #" + (i + 1);
+                }
+
+                this.fanInfo[i] = new FanInformation(0, 0, true, false, cfg.FanDisplayName);
+                this.fans[i] = new Fan(this.ec, cfg, config.CriticalTemperature, config.ReadWriteWords);
+                this.requestedSpeeds[i] = AutoFanSpeedPercentage;
+            }
+        }
+
+        internal FanControl(
+            FanControlConfigV2 config,
+            ITemperatureFilter filter,
+            IEmbeddedController ec,
+            ITemperatureMonitor cpuTempMon,
+            Fan[] fans) : this(config, filter, ec, cpuTempMon)
         {
             if (fans == null)
             {
@@ -212,7 +297,12 @@ namespace StagWare.FanControl
 
         public float Temperature
         {
-            get { return this.temperature; }
+            get { return this.cpuTemperature; }
+        }
+
+        public float Temperature2
+        {
+            get { return this.gpuTemperature; }
         }
 
         public bool Enabled
@@ -229,13 +319,26 @@ namespace StagWare.FanControl
         {
             get
             {
-                if (this.tempMon == null || !this.tempMon.IsInitialized)
+                if (this.cpuTempMon == null || !this.cpuTempMon.IsInitialized)
                 {
                     return null;
                 }
                 else
                 {
-                    return this.tempMon.TemperatureSourceDisplayName;
+                    return this.cpuTempMon.TemperatureSourceDisplayName;
+                }
+            }
+        }
+
+        public string TemperatureSource2DisplayName {
+            get {
+                if (this.gpuTempMon == null || !this.gpuTempMon.IsInitialized)
+                {
+                    return null;
+                }
+                else
+                {
+                    return this.gpuTempMon.TemperatureSourceDisplayName;
                 }
             }
         }
@@ -277,11 +380,11 @@ namespace StagWare.FanControl
             }
             else
             {
-                if (!this.tempMon.IsInitialized)
+                if (!this.cpuTempMon.IsInitialized)
                 {
-                    this.tempMon.Initialize();
+                    this.cpuTempMon.Initialize();
 
-                    if (!this.tempMon.IsInitialized)
+                    if (!this.cpuTempMon.IsInitialized)
                     {
                         throw new PluginInitializationException(
                             "Could not initialize plugin of type " + nameof(ITemperatureMonitor));
@@ -372,14 +475,17 @@ namespace StagWare.FanControl
 
                 // We don't know which locks the plugins try to acquire internally,
                 // therefore never try to access tempMon after calling ec.AcquireLock()
-                double temp = this.tempMon.GetTemperature();
-                this.temperature = (float)this.tempFilter.FilterTemperature(temp);
+                double cpuTemp = this.cpuTempMon.GetTemperature();
+                this.cpuTemperature = (float)this.tempFilter.FilterTemperature(cpuTemp);
+
+                double gpuTemp = this.gpuTempMon.GetTemperature();
+                this.gpuTemperature = (float)this.tempFilter.FilterTemperature(gpuTemp);
 
                 if (this.ec.AcquireLock(EcTimeout))
                 {
                     try
                     {
-                        UpdateEc(this.temperature);
+                        UpdateEc(this.cpuTemperature);
                     }
                     catch (Exception e)
                     {
@@ -648,9 +754,14 @@ namespace StagWare.FanControl
                     this.ec.Dispose();
                 }
 
-                if (this.tempMon != null)
+                if (this.cpuTempMon != null)
                 {
-                    this.tempMon.Dispose();
+                    this.cpuTempMon.Dispose();
+                }
+
+                if (this.gpuTempMon != null)
+                {
+                    this.gpuTempMon.Dispose();
                 }
 
                 GC.SuppressFinalize(this);

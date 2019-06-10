@@ -85,7 +85,8 @@ namespace StagWare.FanControl.Service
                 Enabled = false,
                 ReadOnly = SettingsService.Settings.ReadOnly,
                 SelectedConfig = this.selectedConfig,
-                Temperature = 0
+                Temperature = 0,
+                Temperature2 = 0
             };
 
             if (!this.disposed && this.fanControl != null)
@@ -93,10 +94,12 @@ namespace StagWare.FanControl.Service
                 info.Enabled = this.fanControl.Enabled;
                 info.ReadOnly = this.fanControl.ReadOnly;
                 info.TemperatureSourceDisplayName = this.fanControl.TemperatureSourceDisplayName;
+                info.TemperatureSource2DisplayName = this.fanControl.TemperatureSource2DisplayName;
 
                 if (this.fanControl.Enabled)
                 {
                     info.Temperature = (int)Math.Round(fanControl.Temperature);
+                    info.Temperature2 = (int)Math.Round(fanControl.Temperature2);
 
                     ReadOnlyCollection<FanInformation> fanInfo = this.fanControl.FanInformation;
                     info.FanStatus = new FanStatus[fanInfo.Count];

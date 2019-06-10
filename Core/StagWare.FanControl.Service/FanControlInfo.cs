@@ -21,6 +21,12 @@ namespace StagWare.FanControl.Service
         public string TemperatureSourceDisplayName { get; set; }
 
         [DataMember]
+        public int Temperature2 { get; set; }
+
+        [DataMember]
+        public string TemperatureSource2DisplayName { get; set; }
+
+        [DataMember]
         public string SelectedConfig { get; set; }
     }
 }

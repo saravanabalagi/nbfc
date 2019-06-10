@@ -38,7 +38,7 @@
 
     <Window.InputBindings>
         <KeyBinding 
-            Gesture="Ctrl+Alt+1" 
+            Gesture="Ctrl+Alt+F7" 
             HotkeyManager.RegisterGlobalHotkey="True" 
             Command="{Binding ToggleFanControlStatusCommand}" />
     </Window.InputBindings>
@@ -75,6 +75,7 @@
         <!--Service status-->
 
         <StackPanel
+            HorizontalAlignment="Center"
             Margin="10,50,10,10"
             VerticalAlignment="Top"
             Orientation="Horizontal">
