@@ -103,6 +103,10 @@
       <HintPath>..\..\packages\Notifications.Wpf.0.1.1\lib\net45\Notifications.Wpf.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Notifications.Wpf.Sarav, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Notifications.Wpf.Sarav.0.1.0\lib\net45\Notifications.Wpf.Sarav.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
